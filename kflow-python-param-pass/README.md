@@ -1,3 +1,7 @@
+Below is your reformatted README section with the "Note" section converted into a numbered list:
+
+---
+
 # **Kubeflow Pipeline for ML Model Training with Parameter Passing**
 
 This repository demonstrates how to use **Kubeflow Pipelines (KFP)** to train an ML model while dynamically passing parameters from **Kubeflow UI** or **Python SDK**. The pipeline trains a **logistic regression model** and supports **hyperparameter tuning** via Kubeflow.
@@ -5,13 +9,15 @@ This repository demonstrates how to use **Kubeflow Pipelines (KFP)** to train an
 ---
 
 ## **🚀 1. Prerequisites**
+
 Before running the pipeline, ensure your system has the following installed:
-Note: 
-    1- this poc has been done on ubuntu os
-    2- make sure docker have user added or else would need to sudo for every command even "docker ps"
-    3- kubeflow versions are going to get mismatched if tried on virtual python env, so avoid for this poc
-    4- make sure the docker login is already done and after doing "minikube ssh" also docker pull for the image is going to happen
-    5- give it at least 20 mins during kubeflow installation for pods to start running and then then only move ahead
+
+**Note:**
+1. This POC has been done on Ubuntu OS.
+2. Make sure Docker has your user added; otherwise, you'll need to use `sudo` for every command (even for `docker ps`).
+3. Kubeflow versions might mismatch if tried on a virtual Python environment, so avoid that for this POC.
+4. Ensure the Docker login is already done; after executing `minikube ssh`, Docker will pull the necessary image.
+5. Allow at least 20 minutes during the Kubeflow installation for pods to start running before proceeding.
 
 ### **🔹 System Dependencies**
 ```bash
