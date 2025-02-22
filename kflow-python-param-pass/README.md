@@ -201,6 +201,14 @@ python3 run_experiment.py
 
 ---
 
+
+## **🟢 5. Screenshots from kflow ui**
+
+![Two runs create 2n cloned from 1st](kflow-python-param-pass/screenshots/run-pipelines.png)
+![1st run with initial params and the respective logs](kflow-python-param-pass/screenshots/run-pipelines.png)
+![2nd run with initial params and the respective logs](kflow-python-param-pass/screenshots/run-pipelines.png)
+
+
 ## **🚀 Final Takeaways**
 ✅ **Kubeflow Pipelines enable parameterized ML training workflows.**  
 ✅ **Easily modify hyperparameters via UI or SDK for experimentation.**  
