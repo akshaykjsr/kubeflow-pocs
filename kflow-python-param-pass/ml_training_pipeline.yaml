@@ -1,0 +1,64 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: ml-training-pipeline-
+  annotations: {pipelines.kubeflow.org/kfp_sdk_version: 1.8.22, pipelines.kubeflow.org/pipeline_compilation_time: '2025-02-23T01:36:48.292705',
+    pipelines.kubeflow.org/pipeline_spec: '{"description": "Trains an ML model with
+      Kubeflow parameters", "inputs": [{"default": "logistic_regression", "name":
+      "model_type", "optional": true, "type": "String"}, {"default": "0.01", "name":
+      "learning_rate", "optional": true, "type": "Float"}, {"default": "32", "name":
+      "batch_size", "optional": true, "type": "Integer"}], "name": "ML Training Pipeline"}'}
+  labels: {pipelines.kubeflow.org/kfp_sdk_version: 1.8.22}
+spec:
+  entrypoint: ml-training-pipeline
+  templates:
+  - name: ml-training-pipeline
+    inputs:
+      parameters:
+      - {name: batch_size}
+      - {name: learning_rate}
+      - {name: model_type}
+    dag:
+      tasks:
+      - name: train-ml-model
+        template: train-ml-model
+        arguments:
+          parameters:
+          - {name: batch_size, value: '{{inputs.parameters.batch_size}}'}
+          - {name: learning_rate, value: '{{inputs.parameters.learning_rate}}'}
+          - {name: model_type, value: '{{inputs.parameters.model_type}}'}
+  - name: train-ml-model
+    container:
+      args: [--model_type, '{{inputs.parameters.model_type}}', --learning_rate, '{{inputs.parameters.learning_rate}}',
+        --batch_size, '{{inputs.parameters.batch_size}}']
+      command: [python3, /app/train_model.py]
+      image: akshaykjsr/ml-trainer:v1
+    inputs:
+      parameters:
+      - {name: batch_size}
+      - {name: learning_rate}
+      - {name: model_type}
+    metadata:
+      labels:
+        pipelines.kubeflow.org/kfp_sdk_version: 1.8.22
+        pipelines.kubeflow.org/pipeline-sdk-type: kfp
+        pipelines.kubeflow.org/enable_caching: "true"
+      annotations: {pipelines.kubeflow.org/component_spec: '{"description": "Trains
+          an ML model with parameters from Kubeflow", "implementation": {"container":
+          {"args": ["--model_type", {"inputValue": "model_type"}, "--learning_rate",
+          {"inputValue": "learning_rate"}, "--batch_size", {"inputValue": "batch_size"}],
+          "command": ["python3", "/app/train_model.py"], "image": "akshaykjsr/ml-trainer:v1"}},
+          "inputs": [{"description": "Type of model (logistic_regression)", "name":
+          "model_type", "type": "String"}, {"description": "Learning rate", "name":
+          "learning_rate", "type": "Float"}, {"description": "Batch size", "name":
+          "batch_size", "type": "Integer"}], "name": "Train ML Model"}', pipelines.kubeflow.org/component_ref: '{"digest":
+          "88d99b19e6a66a14e925545dec6074d9a4daf644823277836e81582e3feeaec6", "url":
+          "component.yaml"}', pipelines.kubeflow.org/arguments.parameters: '{"batch_size":
+          "{{inputs.parameters.batch_size}}", "learning_rate": "{{inputs.parameters.learning_rate}}",
+          "model_type": "{{inputs.parameters.model_type}}"}'}
+  arguments:
+    parameters:
+    - {name: model_type, value: logistic_regression}
+    - {name: learning_rate, value: '0.01'}
+    - {name: batch_size, value: '32'}
+  serviceAccountName: pipeline-runner
