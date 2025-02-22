@@ -6,6 +6,12 @@ This repository demonstrates how to use **Kubeflow Pipelines (KFP)** to train an
 
 ## **🚀 1. Prerequisites**
 Before running the pipeline, ensure your system has the following installed:
+Note: 
+    1- this poc has been done on ubuntu os
+    2- make sure docker have user added or else would need to sudo for every command even "docker ps"
+    3- kubeflow versions are going to get mismatched if tried on virtual python env, so avoid for this poc
+    4- make sure the docker login is already done and after doing "minikube ssh" also docker pull for the image is going to happen
+    5- give it at least 20 mins during kubeflow installation for pods to start running and then then only move ahead
 
 ### **🔹 System Dependencies**
 ```bash
